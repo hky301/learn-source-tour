@@ -1,6 +1,6 @@
 // vue响应式实现
 import { isObject } from '@xiaoyu/utils'
 
-export const ret = isObject({})
-
-// console.log(ret)
+export { effect } from './effect'
+export { reactive } from './reactive'
+export { ref } from './ref'
