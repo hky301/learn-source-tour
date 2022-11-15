@@ -33,7 +33,7 @@ export function trigger(obj, type, key) {
   const depsMap = targetMap.get(obj)
   if (!depsMap)
     return
-  if (type === 'collection-add')
+  if (type === 'collection-add' || type === 'collection-delete' || type === 'collection-has')
     key = COL_KEY
   const deps = depsMap.get(key)
   if (deps)
