@@ -12,6 +12,11 @@ const enum TargetType {
 
 export const ReactiveFlags = {
   RAW: '__v_raw',
+  IS_REACTIVE: '__is_reactive',
+}
+
+export function isReactive(val: any) {
+  return !!val[ReactiveFlags.IS_REACTIVE]
 }
 
 function targetTypeMap(type: string) {

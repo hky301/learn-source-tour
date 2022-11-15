@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { effect, reactive, ref } from '../src/index'
-import { shallowReactive } from '../src/reactive'
+import { effect, isReactive, isRef, reactive, ref, shallowReactive } from '../src/index'
 
 describe('响应式', () => {
   it('reactive基本功能', () => {
@@ -86,6 +85,15 @@ describe('响应式', () => {
 
     num.value.count++
     expect(val).toBe(2)
+  })
+
+  it('工具函数', () => {
+    const val1 = ref(1)
+    const val2 = reactive({ count: 1 })
+    const val3 = shallowReactive({ count: 1 })
+    expect(isRef(val1)).toBe(true)
+    expect(isReactive(val2)).toBe(true)
+    expect(isReactive(val3)).toBe(true)
   })
 })
 

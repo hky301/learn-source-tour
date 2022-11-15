@@ -31,3 +31,7 @@ class RefImpl {
 function convert(value: any) {
   return isObject(value) ? reactive(value) : value
 }
+
+export function isRef(value: any) {
+  return !!value._isRef
+}
