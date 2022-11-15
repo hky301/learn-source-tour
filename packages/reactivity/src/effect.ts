@@ -5,14 +5,6 @@ const targetMap = new WeakMap()
 let activeEffect
 const effectStack = []
 
-export function effect(fn) {
-  activeEffect = fn
-  effectStack.push(activeEffect)
-  fn()
-  effectStack.pop()
-  activeEffect = effectStack[effectStack.length - 1]
-}
-
 export function track(obj, type, key) {
   if (!activeEffect)
     return
@@ -27,6 +19,7 @@ export function track(obj, type, key) {
     depsMap.set(key, (deps = new Set()))
 
   deps.add(activeEffect)
+  activeEffect.deps.push(deps)
 }
 
 export function trigger(obj, type, key) {
@@ -36,6 +29,35 @@ export function trigger(obj, type, key) {
   if (type === 'collection-add' || type === 'collection-delete' || type === 'collection-has')
     key = COL_KEY
   const deps = depsMap.get(key)
-  if (deps)
-    deps.forEach(effect => effect())
+  if (deps) {
+    const depsToRun = new Set(deps)
+    depsToRun.forEach(effect => effect())
+  }
+}
+
+function cleanup(effectFn) {
+  // 全部清理，track时重新收集，vue3.2优化 位运算
+  for (let i = 0; i < effectFn.deps.length; i++)
+    effectFn.deps[i].delete(effectFn)
+  effectFn.deps = []
+}
+
+export function effect(fn) {
+  const effectFn = () => {
+    let ret
+    try {
+      activeEffect = effectFn
+      effectStack.push(activeEffect)
+      cleanup(effectFn)
+      ret = fn()
+    }
+    finally {
+      effectStack.pop()
+      activeEffect = effectStack[effectStack.length - 1]
+    }
+    return ret
+  }
+  effectFn.deps = []
+  effectFn()
+  return effectFn
 }
