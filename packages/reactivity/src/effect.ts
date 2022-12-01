@@ -3,7 +3,7 @@ import { COL_KEY } from './reactive'
 const targetMap = new WeakMap()
 
 let activeEffect
-const effectStack = []
+const effectStack: any[] = []
 
 export function track(obj, type, key) {
   if (!activeEffect)
