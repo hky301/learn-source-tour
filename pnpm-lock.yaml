@@ -20,14 +20,14 @@ importers:
       unbuild: 0.9.4
       vitest: 0.25.0
 
-  packages/reactivity:
+  packages/utils:
+    specifiers: {}
+
+  vue/reactivity:
     specifiers:
       '@xiaoyu/utils': workspace:*
     dependencies:
-      '@xiaoyu/utils': link:../utils
-
-  packages/utils:
-    specifiers: {}
+      '@xiaoyu/utils': link:../../packages/utils
 
 packages:
 

@@ -9,11 +9,11 @@
     "build:utils": "pnpm run --filter @xiaoyu/utils build",
     "build:reactivity": "pnpm run --filter @xiaoyu/reactivity build",
     "build": "pnpm run --filter=\"@xiaoyu/*\" --filter='xiaoyu' build",
-    "test": "vitest packages/",
-    "test:once": "vitest run packages/",
+    "test": "vitest .",
+    "test:once": "vitest run .",
     "coverage": "vitest run --coverage",
-    "lint": "eslint packages/**/src/**",
-    "lint:fix": "eslint packages/**/src/** --fix"
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.29.4",
